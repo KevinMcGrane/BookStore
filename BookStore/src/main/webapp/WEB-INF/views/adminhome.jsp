@@ -47,23 +47,12 @@
 	<div class="container">
 	<c:forEach items="${bookList}" var="book">
 						<div class="panel panel-default">
-							<div class="panel-heading">
-								<b><a href=${contextPath}/admin/book/${book.id}>${track.user.fname}
-										${track.user.lname}</a></b> posted:
-							</div>
-							<div class="panel-body"><b>Artist:</b>${track.artist}<br><b>Name:</b>${track.trackName}<br><b>Genre:</b>${track.genre.name}<br><div
+							<div class="panel-body">
+								<b><a href=${contextPath}/admin/book/${book.id}>${book.title}</a></b><br>
+							
+							<b>Author:</b>${book.author}<br><b>Category:</b>${book.category}<br><b>Price:</b> &euro;${book.price}<br><div
 									id="mainwrap">
-									<div id="nowPlay">
-										<span class="center" id="npTitle"></span>
-									</div>
-									<div id="audiowrap">
-										<div id="audio0">
-											<audio preload="auto" id="audio1" controls="controls">
-												<source
-													src="https://s3.eu-west-1.amazonaws.com/sounddrop-track-bucket/${track.fileName}">
-											</audio>
-										</div>
-									</div>
+									
 								</div>
 							</div>
 						

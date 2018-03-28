@@ -1,17 +1,21 @@
 package bookstore.model;
 
 import java.awt.Image;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.mysql.jdbc.Blob;
 
 @Entity
 public class Book {
-private long id;
+private Long id;
 
 private String title;
 
@@ -23,13 +27,15 @@ private String category;
 
 private String image;
 
+private List<Comment> comments;
+
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
-public long getId() {
+public Long getId() {
 	return id;
 }
 
-public void setId(long id) {
+public void setId(Long id) {
 	this.id = id;
 }
 
@@ -72,5 +78,15 @@ public String getImage() {
 public void setImage(String image) {
 	this.image = image;
 }
+@OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+public List<Comment> getComments() {
+	return comments;
+}
+
+public void setComments(List<Comment> comments) {
+	this.comments = comments;
+}
+
+
 
 }

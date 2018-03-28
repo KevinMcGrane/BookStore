@@ -45,47 +45,60 @@
 
 	<jsp:include page="navbarAdmin.jsp"></jsp:include>
 	<div class="container">
+	<div class="col-lg-6">
 	<div id="logbox">
 					<form:form method="POST" modelAttribute="bookForm">
-						<h2 class="form-signin-heading">Add a book</h2>
+						<h2 class="form-signin-heading">Update</h2>
 						<spring:bind path="author">
+						Author
 							<div class="form-group">
 								<form:input type="text" path="author" class="form-control"
-									placeholder="Auhor" autofocus="true"></form:input>
+									placeholder="${bookForm.author}" autofocus="true"></form:input>
 								<form:errors path="author"></form:errors>
 							</div>
 						</spring:bind>
 
 						<spring:bind path="title">
+						Title
 							<div class="form-group">
 								<form:input type="text" path="title" class="form-control"
-									placeholder="Title"></form:input>
+									placeholder="${bookForm.title}"></form:input>
 								<form:errors path="title"></form:errors>
 							</div>
 						</spring:bind>
 
 						<spring:bind path="price">
+						Price
 							<div class="form-group">
 								<form:input type="number" path="price"
-									class="form-control" placeholder="Price"></form:input>
+									class="form-control" placeholder="${bookForm.price}"></form:input>
 								<form:errors path="price"></form:errors>
 							</div>
 						</spring:bind>
 						
 						<spring:bind path="category">
+						Category
 							<div class="form-group">
 								<form:input type="text" path="category"
-									class="form-control" placeholder="Category"></form:input>
+									class="form-control" placeholder="${bookForm.price}"></form:input>
 								<form:errors path="price"></form:errors>
 							</div>
 						</spring:bind>
 						
 						
 				
-						<button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
 						
 					</form:form>
 					</div>
+					</div>
+					<div class="col-lg-2"></div>
+					<div class="col-lg-4">
+					<H2>Current Book Details</H2><br><H4>
+					<b>Author:</b>${bookForm.author}<br>
+					<br><b>Title:</b>${bookForm.title}<br>
+					<br><b>Price:</b>&euro;${bookForm.price}<br>
+					<br><b>Category:</b>${bookForm.category}</H4></div>
 					</div>
 	<!-- /container -->
 </body>

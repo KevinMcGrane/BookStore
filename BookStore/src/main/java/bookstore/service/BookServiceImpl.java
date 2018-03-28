@@ -21,12 +21,18 @@ public class BookServiceImpl implements BookService {
     	 book.setAuthor(book.getAuthor());
     	 book.setCategory(book.getCategory());
     	 book.setPrice(book.getPrice());
+    	 book.setComments(book.getComments());
         bookRepository.save(book);
     }
 	
 	@Override
 	public List<Book> findAll(){
 		return bookRepository.findAll();
+	}
+	
+	@Override
+	public Book findById(Long id) {
+		return bookRepository.findOne(id);
 	}
 
 }
