@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import bookstore.model.Book;
 import bookstore.model.Comment;
-import bookstore.model.Customer;
+import bookstore.model.User;
 import bookstore.repository.CommentRepository;
 
 
@@ -22,11 +22,11 @@ public class CommentServiceImpl implements CommentService{
     
 	
 	@Override
-    public void save(Comment comment, Customer customer, Book book) {
+    public void save(Comment comment, User user, Book book) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         comment.setContent(comment.getContent()); 
         comment.setPublishTime(timestamp);
-		comment.setCustomer(customer);
+		comment.setUser(user);
 		comment.setBook(book);
         commentRepository.save(comment);
     }

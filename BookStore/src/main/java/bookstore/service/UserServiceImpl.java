@@ -32,22 +32,48 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public void save(User user) {
-    	 Role admin = roleRepository.findByName("ROLE_ADMIN");
-    	Set<Role> adminRoles = new HashSet<>();
-    	adminRoles.add(admin);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(adminRoles);
-        userRepository.save(user);
+    	if(user.isAdmin()==true) {
+    		Role admin = roleRepository.findByName("ROLE_ADMIN");
+        	Set<Role> adminRoles = new HashSet<>();
+        	adminRoles.add(admin);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setRoles(adminRoles);
+            userRepository.save(user);
+    	}else {
+    		Role cust = roleRepository.findByName("ROLE_CUSTOMER");
+        	Set<Role> custRoles = new HashSet<>();
+        	custRoles.add(cust);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setRoles(custRoles);
+            user.setComments(user.getComments());
+            user.setCreditNum(user.getCreditNum());
+            user.setAddress(user.getAddress());
+            userRepository.save(user);
+    	}
+    	
     }
     
     @Override
     public void update(User user) {
         user.setPassword(user.getPassword());
-        Role admin = roleRepository.findByName("ROLE_ADMIN");
-    	Set<Role> adminRoles = new HashSet<>();
-    	adminRoles.add(admin);
-    	user.setRoles(adminRoles);
-        userRepository.save(user);
+        if(user.isAdmin()==true) {
+        	Role admin = roleRepository.findByName("ROLE_ADMIN");
+        	Set<Role> adminRoles = new HashSet<>();
+        	adminRoles.add(admin);
+        	user.setRoles(adminRoles);
+            userRepository.save(user);
+        }else {
+        	Role cust = roleRepository.findByName("ROLE_CUSTOMER");
+        	Set<Role> custRoles = new HashSet<>();
+        	custRoles.add(cust);
+            user.setRoles(custRoles);
+            user.setComments(user.getComments());
+            user.setCreditNum(user.getCreditNum());
+            user.setAddress(user.getAddress());
+            userRepository.save(user);
+    	}
+        
+        
     }
 
     

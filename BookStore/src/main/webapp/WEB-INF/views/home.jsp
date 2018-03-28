@@ -43,7 +43,7 @@
 </head>
 <body>
 
-	<jsp:include page="navbarAdmin.jsp"></jsp:include>
+	<jsp:include page="navbar.jsp"></jsp:include>
 	<div class="container">
 	<c:forEach items="${bookList}" var="book">
 						<div class="panel panel-default">

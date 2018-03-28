@@ -68,7 +68,7 @@
 			<div class="col-lg-7">
 				<div id="logbox">
 					<form:form method="POST" modelAttribute="userForm"
-						class="form-signin">
+						class="form-signin" action="${contextPath}/register">
 						<h2 class="form-signin-heading">Create your account</h2>
 						<spring:bind path="username">
 							<div class="form-group ${status.error ? 'has-error' : ''}">
@@ -91,6 +91,13 @@
 								<form:input type="password" path="passwordConfirm"
 									class="form-control" placeholder="Confirm your password"></form:input>
 								<form:errors path="passwordConfirm"></form:errors>
+							</div>
+						</spring:bind>
+						
+						<spring:bind path="admin">
+							<div class="form-group ${status.error ? 'has-error' : ''}">
+								<form:radiobutton path="admin" value="true"/>Admin
+								<form:radiobutton path="admin" value="false"/>Customer
 							</div>
 						</spring:bind>
 				

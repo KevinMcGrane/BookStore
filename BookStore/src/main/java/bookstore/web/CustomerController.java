@@ -22,8 +22,8 @@ import bookstore.service.UserService;
 import bookstore.validator.UserValidator;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/customer")
+public class CustomerController {
 	@Autowired
 	private UserService userService;
 
@@ -38,7 +38,8 @@ public class AdminController {
 	
 	@Autowired
 	private CommentService commentService;
-		
+	
+	
 	
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -47,25 +48,6 @@ public class AdminController {
 		model.addAttribute("currentUser", userService.findByUsername(p.getName()));
 		model.addAttribute("bookList", bookList);
 		return "home";
-	}
-	
-	@RequestMapping(value = "/addbook", method = RequestMethod.GET)
-	public String get(Model model, Principal p) {
-		model.addAttribute("currentUser", userService.findByUsername(p.getName()));
-		model.addAttribute("bookForm", new Book());
-		return "addbook";
-	}
-	
-	@RequestMapping(value = "/addbook", method = RequestMethod.POST)
-	public String add(@ModelAttribute("bookForm") Book book, Model model, Principal p) {
-		bookService.save(book);
-		return "redirect:/admin/home";
-	}
-	
-	@RequestMapping(value = "/book/edit/{id}", method = RequestMethod.GET)
-	public String get(@PathVariable Long id, Model model, Principal p) {
-		model.addAttribute("bookForm", bookService.findById(id));
-		return "bookedit";
 	}
 	
 	@RequestMapping(value = "/book/{id}", method = RequestMethod.GET)
@@ -87,13 +69,7 @@ public class AdminController {
 		User cust = userService.findByUsername(name);
 		commentService.save(commentForm, cust, book);
 		bookService.save(book);
-		return "redirect:/comment/{postTextId}";
-	}
-	
-	@RequestMapping(value = "/book/edit/{id}", method = RequestMethod.POST)
-	public String update(@ModelAttribute("bookForm") Book book, Model model, Principal p) {
-		bookService.save(book);
-		return "bookedit";
+		return "redirect:/customer/book/{id}";
 	}
 	
 

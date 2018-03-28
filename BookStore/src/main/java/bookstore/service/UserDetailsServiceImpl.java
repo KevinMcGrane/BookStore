@@ -1,8 +1,8 @@
 package bookstore.service;
 
-import bookstore.model.Role;
-import bookstore.model.User;
-import bookstore.repository.UserRepository;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,8 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import bookstore.model.Role;
+import bookstore.model.User;
+import bookstore.repository.UserRepository;
 
 public class UserDetailsServiceImpl implements UserDetailsService{
     @Autowired
@@ -30,4 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
+    
+    
+   
 }

@@ -26,7 +26,7 @@ public class Comment {
 	
 	private Date publishTime;
 	
-	private Customer customer;
+	private User user;
 	
 	private Book book;
 
@@ -35,21 +35,21 @@ public class Comment {
 		
 	}
 	
-	public Comment(String content, Date publishTime, Customer customer) {
+	public Comment(String content, Date publishTime, User user) {
 		super();
 		this.content = content;
 		this.publishTime = publishTime;
-		this.customer = customer;
+		this.user = user;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getCommentId() {
+	public Long getId() {
 		return commentId;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public void setCommentId(Long commentId) {
+	public void setId(Long commentId) {
 		this.commentId = commentId;
 	}
 	public String getContent() {
@@ -69,17 +69,15 @@ public class Comment {
 	}
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="customer_id")
-	public Customer getCustomer() {
-		return customer;
+	@JoinColumn(name="user_id")
+	public User getUser() {
+		return user;
 	}
 	
 	
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
-	
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="book_id")

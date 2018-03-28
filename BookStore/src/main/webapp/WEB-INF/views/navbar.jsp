@@ -22,6 +22,7 @@
 <body>
 <nav class="navbar navbar-default">
 		<div class="container">
+		<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -42,11 +43,40 @@
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="${contextPath}/admin/home">Home</a></li>
+					
 										<li><a href="${contextPath}/admin/addbook">Add book</a></li>
-										<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
+													<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
 				</ul>
 
+			</div></c:if>
+				
+										<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">	<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="${contextPath}/customer/home">
+				Bookstore</a>
 			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<form class="navbar-form navbar-left" method="get" action="${contextPath}/search">
+					<div class="form-group" role="search">
+						<input type="text" name="searchString" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Search</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="${contextPath}/customer/home">Home</a></li>
+					
+										<li><a href="${contextPath}/customer/addbook">Cart</a></li>
+													<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
+				</ul>
+
+			</div></c:if>
+							
 			<!--/.nav-collapse -->
 		</div>
 	</nav>

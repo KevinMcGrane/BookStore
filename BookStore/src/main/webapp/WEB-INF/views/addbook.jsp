@@ -43,7 +43,7 @@
 </head>
 <body>
 
-	<jsp:include page="navbarAdmin.jsp"></jsp:include>
+	<jsp:include page="navbar.jsp"></jsp:include>
 	<div class="container">
 	<div id="logbox">
 					<form:form method="POST" modelAttribute="bookForm">

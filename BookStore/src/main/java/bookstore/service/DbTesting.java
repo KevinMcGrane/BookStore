@@ -36,9 +36,15 @@ public class DbTesting {
 		roleAdmin.setName("ROLE_ADMIN");
 		roleRepository.save(roleAdmin);
 
-		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		grantedAuthorities.add(new SimpleGrantedAuthority(roleAdmin.getName()));
+		Set<GrantedAuthority> grantedAuthoritiesAdmin = new HashSet<>();
+		grantedAuthoritiesAdmin.add(new SimpleGrantedAuthority(roleAdmin.getName()));
+		
+		Role roleCustomer = new Role();
+		roleCustomer.setName("ROLE_CUSTOMER");
+		roleRepository.save(roleCustomer);
 
+		Set<GrantedAuthority> grantedAuthoritiesCustomer = new HashSet<>();
+		grantedAuthoritiesCustomer.add(new SimpleGrantedAuthority(roleCustomer.getName()));
 
 	User user = new User();
 	String password = "test";

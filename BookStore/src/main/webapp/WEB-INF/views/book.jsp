@@ -39,7 +39,7 @@
 </head>
 <body>
 
-	<jsp:include page="navbarAdmin.jsp"></jsp:include>
+	<jsp:include page="navbar.jsp"></jsp:include>
 
 	<div class="row">
 
