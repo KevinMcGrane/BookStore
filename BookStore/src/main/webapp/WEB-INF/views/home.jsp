@@ -45,10 +45,14 @@
 
 	<jsp:include page="navbar.jsp"></jsp:include>
 	<div class="container">
+	<div class="col-lg-3"></div>
+	<div class="col-lg-4">
 	<c:forEach items="${bookList}" var="book">
 						<div class="panel panel-default">
-							<div class="panel-body">
-								<b><a href=${contextPath}/admin/book/${book.id}>${book.title}</a></b><br>
+							<div class="panel-body"><c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
+								<b><a href=${contextPath}/customer/book/${book.id}>${book.title}</a></b><br></c:if>
+								<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+								<b><a href=${contextPath}/admin/book/${book.id}>${book.title}</a></b><br></c:if>
 							
 							<b>Author:</b>${book.author}<br><b>Category:</b>${book.category}<br><b>Price:</b> &euro;${book.price}<br><div
 									id="mainwrap">
@@ -57,7 +61,7 @@
 							</div>
 						
 						</div>
-					</c:forEach>
+					</c:forEach></div><div class="col-lg-5"></div>
 	</div>
 	<!-- /container -->
 </body>

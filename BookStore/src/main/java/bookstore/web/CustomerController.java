@@ -24,6 +24,8 @@ import bookstore.validator.UserValidator;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+	private static final boolean Comment = false;
+
 	@Autowired
 	private UserService userService;
 
@@ -52,7 +54,12 @@ public class CustomerController {
 	
 	@RequestMapping(value = "/book/{id}", method = RequestMethod.GET)
 	public String getBook(@PathVariable Long id, Model model, Principal p) {
-		model.addAttribute("commentForm", new Comment());
+		Comment commentForm = new Comment();
+		commentForm.setId(null);
+		Book book =bookService.findById((long) 1);
+		List<Comment> comments = commentService.findByBook(book);
+		model.addAttribute("commentForm", commentForm);
+		model.addAttribute("comments", commentService.findByBook(bookService.findById(id)));
 		model.addAttribute("book", bookService.findById(id));
 		return "book";
 	}
@@ -72,5 +79,32 @@ public class CustomerController {
 		return "redirect:/customer/book/{id}";
 	}
 	
+	@RequestMapping(value = "/account", method = RequestMethod.GET)
+	public String login(Model model, String error, Principal p) {
+		String name = p.getName();
+		model.addAttribute("userForm", userService.findByUsername(name));
+		model.addAttribute("currentUser", userService.findByUsername(name));
 
-}
+
+		return "account";
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model, Principal principal) {
+		String name = principal.getName();
+		userService.update(userForm, name);
+
+
+			return "redirect:/customer/account";
+		}
+	
+	@RequestMapping(value = "/book/addtocart/{id}", method = RequestMethod.POST)
+	public String addToCart(@PathVariable Long id, Model model, Principal p) {
+		User currentUser = userService.findByUsername(p.getName());
+		bookService.addToCart(id, user);
+		return "cart";
+	}
+	}
+	
+
+

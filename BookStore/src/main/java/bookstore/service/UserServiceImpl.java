@@ -54,22 +54,25 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void update(User user) {
-        user.setPassword(user.getPassword());
+    public void update(User userForm, String name) {
+        User user = findByUsername(name);
         if(user.isAdmin()==true) {
+        	user.setPassword(user.getPassword());
         	Role admin = roleRepository.findByName("ROLE_ADMIN");
         	Set<Role> adminRoles = new HashSet<>();
         	adminRoles.add(admin);
         	user.setRoles(adminRoles);
             userRepository.save(user);
         }else {
+        	user.setPassword(user.getPassword());
         	Role cust = roleRepository.findByName("ROLE_CUSTOMER");
         	Set<Role> custRoles = new HashSet<>();
         	custRoles.add(cust);
             user.setRoles(custRoles);
             user.setComments(user.getComments());
-            user.setCreditNum(user.getCreditNum());
-            user.setAddress(user.getAddress());
+            user.setCreditNum(userForm.getCreditNum());
+            user.setAddress(userForm.getAddress());
+            user.setName(userForm.getName());
             userRepository.save(user);
     	}
         

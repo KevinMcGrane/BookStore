@@ -48,30 +48,32 @@
 
 		</div>
 
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div id="logbox">
 				<div class="panel-group">
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<b><a href=${contextPath}/admin/book/${book.id}>${book.title}
 									${postText.user.lname}</a></b> by ${book.author}
-						<b>Price: </b>&euro;${book.price}
+						<br><b>Price: </b>&euro;${book.price}
 						<br><b>Category: </b>${book.category}
-						
-						<form action="${contextPath}/admin/book/edit/${book.id}"><input type="button" value="Edit"></form></div>	
+						<br><b>Stock Level: </b>${book.stockLevel}
+										<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+						<br><a href="${contextPath}/admin/book/edit/${book.id}">Edit</a></c:if></div>	
 					</div>
 				</div>
+				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}"><form:button action="${contextPath}/customer/book/addtocart/${book.id}" method="POST"></form:button></c:if>
 				<div class="col-md-7">
-				<c:if test="${currentUser.roles.contains(user)}"></c:if>
-					<form:form commandName="commentForm" action="${contextPath}/comment/${book.id}"
+				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
+					<form:form commandName="commentForm" action="${contextPath}/customer/comment/${book.id}"
 										method="POST">
 						<form:input path="content" placeholder="Write a comment" cssClass="form-control" />
 						<input type="submit" class="btn btn-failure btn-sm" value="Post"/>
-					</form:form>
+					</form:form></c:if>
 					&nbsp;
 					<c:forEach items="${comments}" var="comment"><div class="panel panel-default">
 							<div class="panel-body">
-								<b>${comment.user} commented:</b>
+								<b>${comment.user.username} commented:</b>
 							${comment.content}</div>
 							<div class="panel-footer">${comment.publishTime}	
 </div>
@@ -79,7 +81,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-7">
 			</div>
 	</div>
 

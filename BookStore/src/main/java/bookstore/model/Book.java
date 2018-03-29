@@ -1,6 +1,5 @@
 package bookstore.model;
 
-import java.awt.Image;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,9 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
-import com.mysql.jdbc.Blob;
 
 @Entity
 public class Book {
@@ -28,6 +26,10 @@ private String category;
 private String image;
 
 private List<Comment> comments;
+
+private List<Cart> carts;
+
+private int stockLevel;
 
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
@@ -86,6 +88,25 @@ public List<Comment> getComments() {
 public void setComments(List<Comment> comments) {
 	this.comments = comments;
 }
+
+public int getStockLevel() {
+	return stockLevel;
+}
+
+public void setStockLevel(int stockLevel) {
+	this.stockLevel = stockLevel;
+}
+
+@ManyToMany(mappedBy="books")
+public List<Cart> getCart() {
+	return carts;
+}
+
+public void setCart(List<Cart> carts) {
+	this.carts = carts;
+}
+
+
 
 
 

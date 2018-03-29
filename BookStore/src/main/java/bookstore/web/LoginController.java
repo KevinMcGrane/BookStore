@@ -46,7 +46,7 @@ public class LoginController {
 		userValidator.validate(userForm, bindingResult);
 
 		if (bindingResult.hasErrors()) {
-			return "customerlogin";
+			return "login";
 		}
 
 		userService.save(userForm);

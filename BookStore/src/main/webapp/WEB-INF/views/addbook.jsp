@@ -79,6 +79,13 @@
 								<form:errors path="price"></form:errors>
 							</div>
 						</spring:bind>
+						<spring:bind path="stockLevel">
+							<div class="form-group">
+								<form:input type="number" path="stockLevel"
+									class="form-control" placeholder="Stock Level"></form:input>
+								<form:errors path="stockLevel"></form:errors>
+							</div>
+						</spring:bind>
 						
 						
 				

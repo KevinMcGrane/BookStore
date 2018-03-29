@@ -22,6 +22,7 @@ public class User {
 	private List<Comment> comments;
     private String address;
     private String creditNum;
+    private String name;
 
 
 
@@ -97,6 +98,16 @@ public class User {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String toString()

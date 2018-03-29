@@ -70,6 +70,10 @@
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="${contextPath}/customer/home">Home</a></li>
+					<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
+															<li><a href="${contextPath}/customer/account">Account</a></li>
+					
+					</c:if>
 					
 										<li><a href="${contextPath}/customer/addbook">Cart</a></li>
 													<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>

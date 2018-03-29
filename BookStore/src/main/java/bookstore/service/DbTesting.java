@@ -1,5 +1,6 @@
 package bookstore.service;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,10 @@ import org.springframework.stereotype.Service;
 import bookstore.model.User;
 import bookstore.repository.UserRepository;
 import bookstore.service.UserService;
+import bookstore.model.Book;
+import bookstore.model.Comment;
 import bookstore.model.Role;
+import bookstore.repository.CommentRepository;
 import bookstore.repository.RoleRepository;
 @Transactional
 @Service
@@ -25,7 +29,13 @@ public class DbTesting {
 	@Autowired
 	private RoleRepository roleRepository;
 	@Autowired
+	private CommentRepository commentRepository;
+	@Autowired
 	private UserService userService;
+	@Autowired
+	private BookService bookService;
+	@Autowired
+	private CommentService commentService;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -52,8 +62,31 @@ public class DbTesting {
 	user.setPassword(bCryptPasswordEncoder.encode(password));
 	
 	HashSet<Role> roles = new HashSet<>();
-	roles.add(roleAdmin);
+	roles.add(roleCustomer);
 	user.setRoles(roles);
 	userRepository.save(user);
+	
+	Book book = new Book();
+	book.setTitle("jjjjjj");
+	book.setAuthor("a");
+	book.setCategory("ww");
+	book.setPrice(0);
+	bookService.save(book);
+	
+	Comment comment = new Comment();
+	comment.setContent("Hi");
+//	comment.setBook(book);
+//	comment.setUser(user);
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	comment.setPublishTime(timestamp);
+	commentService.save(comment, user, book);
+	
+	Comment comment2 = new Comment();
+	comment2.setContent("Hii");
+//	comment2.setBook(book);
+//	comment2.setUser(user);
+	comment2.setPublishTime(timestamp);
+	commentService.save(comment2, user, book);
+	
 }
 }

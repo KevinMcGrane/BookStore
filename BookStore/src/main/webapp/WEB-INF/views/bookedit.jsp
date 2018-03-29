@@ -80,11 +80,18 @@
 						Category
 							<div class="form-group">
 								<form:input type="text" path="category"
-									class="form-control" placeholder="${bookForm.price}"></form:input>
+									class="form-control" placeholder="${bookForm.category}"></form:input>
 								<form:errors path="price"></form:errors>
 							</div>
 						</spring:bind>
-						
+						<spring:bind path="stockLevel">
+						Stock Level
+							<div class="form-group">
+								<form:input type="number" path="stockLevel"
+									class="form-control" placeholder="${bookForm.stockLevel}"></form:input>
+								<form:errors path="stockLevel"></form:errors>
+							</div>
+						</spring:bind>
 						
 				
 						<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
@@ -98,7 +105,8 @@
 					<b>Author:</b>${bookForm.author}<br>
 					<br><b>Title:</b>${bookForm.title}<br>
 					<br><b>Price:</b>&euro;${bookForm.price}<br>
-					<br><b>Category:</b>${bookForm.category}</H4></div>
+					<br><b>Category:</b>${bookForm.category}<br>
+					<br><b>Stock Level:</b>${bookForm.stockLevel}</H4></div>
 					</div>
 	<!-- /container -->
 </body>
