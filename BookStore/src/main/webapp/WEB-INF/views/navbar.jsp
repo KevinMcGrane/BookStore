@@ -75,7 +75,7 @@
 					
 					</c:if>
 					
-										<li><a href="${contextPath}/customer/addbook">Cart</a></li>
+										<li><a href="${contextPath}/customer/cart">Cart (${cartSize})</a></li>
 													<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
 				</ul>
 

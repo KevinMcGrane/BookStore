@@ -54,8 +54,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void update(User userForm, String name) {
-        User user = findByUsername(name);
+    public void update(User userForm, User user) {
         if(user.isAdmin()==true) {
         	user.setPassword(user.getPassword());
         	Role admin = roleRepository.findByName("ROLE_ADMIN");
@@ -73,6 +72,8 @@ public class UserServiceImpl implements UserService {
             user.setCreditNum(userForm.getCreditNum());
             user.setAddress(userForm.getAddress());
             user.setName(userForm.getName());
+            user.setBooksInCart(userForm.getBooksInCart());
+            user.setPurchased(userForm.getPurchased());
             userRepository.save(user);
     	}
         

@@ -8,7 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -27,7 +29,9 @@ private String image;
 
 private List<Comment> comments;
 
-private List<Cart> carts;
+private List<User> carts;
+
+private User purchasedBy;
 
 private int stockLevel;
 
@@ -97,14 +101,26 @@ public void setStockLevel(int stockLevel) {
 	this.stockLevel = stockLevel;
 }
 
-@ManyToMany(mappedBy="books")
-public List<Cart> getCart() {
+@ManyToMany(mappedBy="booksInCart", fetch = FetchType.EAGER)
+public List<User> getCarts() {
 	return carts;
 }
 
-public void setCart(List<Cart> carts) {
+public void setCarts(List<User> carts) {
 	this.carts = carts;
 }
+
+@ManyToOne(fetch = FetchType.EAGER)
+@JoinColumn(name="user_id")
+public User getPurchasedBy() {
+	return purchasedBy;
+}
+
+public void setPurchasedBy(User purchasedBy) {
+	this.purchasedBy = purchasedBy;
+}
+
+
 
 
 

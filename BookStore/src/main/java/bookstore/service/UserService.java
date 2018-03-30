@@ -9,7 +9,7 @@ public interface UserService {
     public User findByUsername(String username);
     public List<User> getAllUser();
 	public User findUser(long id);
-	void update(User user, String name);
+	void update(User userForm, User user);
 
 
 	

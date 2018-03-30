@@ -1,14 +1,11 @@
 package bookstore.service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bookstore.model.Book;
-import bookstore.model.Role;
 import bookstore.model.User;
 import bookstore.repository.BookRepository;
 
@@ -16,6 +13,8 @@ import bookstore.repository.BookRepository;
 public class BookServiceImpl implements BookService {
 	@Autowired
 	BookRepository bookRepository;
+	@Autowired
+	UserService userService;
 	@Override
     public void save(Book book) {
     	 book.setAuthor(book.getAuthor());
@@ -23,6 +22,8 @@ public class BookServiceImpl implements BookService {
     	 book.setPrice(book.getPrice());
     	 book.setComments(book.getComments());
     	 book.setStockLevel(book.getStockLevel());
+    	 book.setCarts(book.getCarts());
+    	 book.setPurchasedBy(book.getPurchasedBy());
         bookRepository.save(book);
     }
 	
@@ -35,5 +36,15 @@ public class BookServiceImpl implements BookService {
 	public Book findById(Long id) {
 		return bookRepository.findOne(id);
 	}
+	
+	@Override
+	public void addBookToCart(Book book, User user) {
+		book.getCarts().add(user);
+		user.getBooksInCart().add(book);
+		save(book);
+		userService.update(user, user);
+		
+	}
+	
 
 }

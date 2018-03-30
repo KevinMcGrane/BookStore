@@ -24,7 +24,6 @@ import bookstore.validator.UserValidator;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-	private static final boolean Comment = false;
 
 	@Autowired
 	private UserService userService;
@@ -47,17 +46,23 @@ public class CustomerController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Model model, Principal p) {
 		List<Book> bookList = bookService.findAll();
-		model.addAttribute("currentUser", userService.findByUsername(p.getName()));
+		User currentUser = userService.findByUsername(p.getName());
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
+		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("bookList", bookList);
 		return "home";
 	}
 	
 	@RequestMapping(value = "/book/{id}", method = RequestMethod.GET)
 	public String getBook(@PathVariable Long id, Model model, Principal p) {
+		User currentUser = userService.findByUsername(p.getName());
 		Comment commentForm = new Comment();
 		commentForm.setId(null);
 		Book book =bookService.findById((long) 1);
 		List<Comment> comments = commentService.findByBook(book);
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
 		model.addAttribute("commentForm", commentForm);
 		model.addAttribute("comments", commentService.findByBook(bookService.findById(id)));
 		model.addAttribute("book", bookService.findById(id));
@@ -82,6 +87,9 @@ public class CustomerController {
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
 	public String login(Model model, String error, Principal p) {
 		String name = p.getName();
+		User currentUser = userService.findByUsername(p.getName());
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
 		model.addAttribute("userForm", userService.findByUsername(name));
 		model.addAttribute("currentUser", userService.findByUsername(name));
 
@@ -92,7 +100,7 @@ public class CustomerController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model, Principal principal) {
 		String name = principal.getName();
-		userService.update(userForm, name);
+		userService.update(userForm, userService.findByUsername(name));
 
 
 			return "redirect:/customer/account";
@@ -101,7 +109,21 @@ public class CustomerController {
 	@RequestMapping(value = "/book/addtocart/{id}", method = RequestMethod.POST)
 	public String addToCart(@PathVariable Long id, Model model, Principal p) {
 		User currentUser = userService.findByUsername(p.getName());
-		bookService.addToCart(id, user);
+		Book book = bookService.findById(id);
+		bookService.addBookToCart(book, currentUser);
+		return "redirect:/customer/book/{id}";
+	}
+	
+	@RequestMapping(value = "/cart", method = RequestMethod.GET)
+	public String cart(Model model, String error, Principal p) {
+		User currentUser = userService.findByUsername(p.getName());
+		List<Book> cartList = currentUser.getBooksInCart();
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
+		model.addAttribute("cartList",cartList);
+		model.addAttribute("currentUser", currentUser);
+
+
 		return "cart";
 	}
 	}

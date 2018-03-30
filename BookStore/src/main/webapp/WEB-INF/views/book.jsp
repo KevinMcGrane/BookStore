@@ -59,10 +59,15 @@
 						<br><b>Category: </b>${book.category}
 						<br><b>Stock Level: </b>${book.stockLevel}
 										<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
-						<br><a href="${contextPath}/admin/book/edit/${book.id}">Edit</a></c:if></div>	
-					</div>
+						<br><a href="${contextPath}/admin/book/edit/${book.id}">Edit</a></c:if>
+							</div>
 				</div>
-				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}"><form:button action="${contextPath}/customer/book/addtocart/${book.id}" method="POST"></form:button></c:if>
+				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}"><form:form
+										action="${contextPath}/customer/book/addtocart/${book.id}"
+										method="post">
+										<button name="${_csrf.parameterName}" value="${_csrf.token}"
+											type="submit" class="btn btn-success btn-sm">Add To Cart</button>
+									</form:form></c:if>
 				<div class="col-md-7">
 				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
 					<form:form commandName="commentForm" action="${contextPath}/customer/comment/${book.id}"
