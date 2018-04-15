@@ -24,6 +24,7 @@ public class BookServiceImpl implements BookService {
     	 book.setStockLevel(book.getStockLevel());
     	 book.setCarts(book.getCarts());
     	 book.setPurchasedBy(book.getPurchasedBy());
+    	 book.setImage(book.getImage());
         bookRepository.save(book);
     }
 	

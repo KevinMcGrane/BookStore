@@ -9,7 +9,8 @@ public interface UserService {
     public User findByUsername(String username);
     public List<User> getAllUser();
 	public User findUser(long id);
-	void update(User userForm, User user);
+	public void update(User userForm, User user);
+	public void checkout(User user);
 
 
 	

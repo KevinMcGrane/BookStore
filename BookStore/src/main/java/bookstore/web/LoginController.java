@@ -1,5 +1,7 @@
 package bookstore.web;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,5 +61,15 @@ public class LoginController {
 		else {
 			return "redirect:/customer/home";
 		}
+	}
+	
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home(Model model, String error, Principal p) {
+		User currentUser = userService.findByUsername(p.getName());
+		if(currentUser.isAdmin()) {
+			return "redirect:/admin/home";
+		}else
+
+		return "redirect:/customer/home";
 	}
 }

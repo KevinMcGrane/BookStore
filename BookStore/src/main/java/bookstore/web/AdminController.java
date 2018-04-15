@@ -1,7 +1,14 @@
 package bookstore.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +18,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import bookstore.model.Book;
 import bookstore.model.Comment;
@@ -35,6 +45,8 @@ public class AdminController {
 	
 	@Autowired
 	private BookService bookService;
+	@Autowired
+    private HttpServletRequest request;
 	
 	@Autowired
 	private CommentService commentService;
@@ -44,6 +56,43 @@ public class AdminController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Model model, Principal p) {
 		List<Book> bookList = bookService.findAll();
+		model.addAttribute("currentUser", userService.findByUsername(p.getName()));
+		model.addAttribute("bookList", bookList);
+		Collections.sort(bookList, (p1, p2) -> p1.getAuthor().compareTo(p2.getAuthor()));
+	    System.out.println(bookList);
+		return "home";
+	}
+	
+	@RequestMapping(value = "/home/{sort}", method = RequestMethod.GET)
+	public String home(@PathVariable String sort,Model model, Principal p) {
+		
+		List<Book> bookList = bookService.findAll();
+//		Collections.sort(bookList, new Comparator<Book>() {
+//	        @Override
+//	        public int compare(Book o1, Book o2) {
+//	        	if(sort.equals("author")) {
+//	        		return o1.getAuthor().compareTo(o2.getAuthor());
+//	        	}
+//	            
+//	        }
+//	    });
+		if (sort.equals("author")) {
+			System.out.println(bookList);
+		    Collections.sort(bookList, (p1, p2) -> p1.getAuthor().compareTo(p2.getAuthor()));
+		    System.out.println(bookList);
+		}
+		if (sort.equals("category")) {
+			System.out.println(bookList);
+		    Collections.sort(bookList, (p1, p2) -> p1.getCategory().compareTo(p2.getCategory()));
+		    System.out.println(bookList);
+		}
+		if (sort.equals("title")) {
+			System.out.println(bookList);
+		    Collections.sort(bookList, (p1, p2) -> p1.getTitle().compareTo(p2.getTitle()));
+		    System.out.println(bookList);
+		}
+	    
+
 		model.addAttribute("currentUser", userService.findByUsername(p.getName()));
 		model.addAttribute("bookList", bookList);
 		return "home";
@@ -57,14 +106,32 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/addbook", method = RequestMethod.POST)
-	public String add(@ModelAttribute("bookForm") Book book, Model model, Principal p) {
+	public String add(@ModelAttribute("bookForm") Book book, Model model, Principal p) throws IllegalStateException, IOException {
+		
+
 		bookService.save(book);
 		return "redirect:/admin/home";
+	}
+	
+	@RequestMapping(value = "/add/{id}/profilepic", method = RequestMethod.POST)
+	public String add(@RequestPart("image") MultipartFile file, @PathVariable Long id, Model model, Principal p) throws IllegalStateException, IOException {
+		
+		Book book = bookService.findById(id);
+		String fileName = book.getId() + file.getOriginalFilename();
+         String realPathtoUploads =  "C:\\Users\\Kevin\\Documents\\Business Computing\\Software Patters\\maven.1522152624118\\BookStore\\src\\main\\webapp\\resources\\images\\" + fileName;
+         System.out.println(realPathtoUploads);
+         file.transferTo(new File(realPathtoUploads));
+         book.setImage(fileName);
+         bookService.save(book);
+        
+		return "redirect:/admin/book/{id}";
 	}
 	
 	@RequestMapping(value = "/book/edit/{id}", method = RequestMethod.GET)
 	public String get(@PathVariable Long id, Model model, Principal p) {
 		model.addAttribute("bookForm", bookService.findById(id));
+		System.out.print(bookService.findById(id).getImage());
+
 		return "bookedit";
 	}
 	
@@ -92,8 +159,25 @@ public class AdminController {
 	
 	@RequestMapping(value = "/book/edit/{id}", method = RequestMethod.POST)
 	public String update(@ModelAttribute("bookForm") Book book, Model model, Principal p) {
-		bookService.save(book);
+		book.setImage(bookService.findById(book.getId()).getImage());
+		System.out.println(book.getImage());
+		bookService.save(book);	
 		return "bookedit";
+	}
+	
+	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
+	public String users(@RequestParam("searchString") String searchString, Model model, Principal principal) {
+		List<Book> allList = bookService.findAll();
+		List<Book> searchList = new ArrayList<>();
+		for (Book book : allList) {
+			if (book.getTitle().toLowerCase().contains(searchString.toLowerCase()) || book.getAuthor().toLowerCase().contains(searchString.toLowerCase()) || book.getCategory().toLowerCase().equals(searchString.toLowerCase())) {
+			searchList.add(book);
+			}
+		}
+	
+		
+		model.addAttribute("bookList", searchList);
+		return "home";
 	}
 	
 

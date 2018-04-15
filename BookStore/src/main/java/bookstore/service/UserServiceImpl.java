@@ -2,22 +2,19 @@ package bookstore.service;
 
 
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import bookstore.model.Book;
 import bookstore.model.Role;
 import bookstore.model.User;
 import bookstore.repository.RoleRepository;
 import bookstore.repository.UserRepository;
-
-import java.security.Principal;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private BookService bookService;
 
    
     
@@ -72,8 +71,8 @@ public class UserServiceImpl implements UserService {
             user.setCreditNum(userForm.getCreditNum());
             user.setAddress(userForm.getAddress());
             user.setName(userForm.getName());
-            user.setBooksInCart(userForm.getBooksInCart());
-            user.setPurchased(userForm.getPurchased());
+            user.setBooksInCart(user.getBooksInCart());
+            user.setPurchased(user.getPurchased());
             userRepository.save(user);
     	}
         
@@ -94,6 +93,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getAllUser() {
 		return userRepository.findAll();
+	}
+	
+	@Override
+	public void checkout(User user) {
+		user.getPurchased().addAll(user.getBooksInCart());
+		user.getBooksInCart().clear();
+		List<Book> books = user.getPurchased();
+		for(Book book : books) {
+			int stock=book.getStockLevel() - 1;
+			book.setStockLevel(stock);
+			bookService.save(book);
+			
+			
+		}
 	}
 
 

@@ -47,13 +47,28 @@
 	<div class="container">
 	<div class="col-lg-3"></div>
 	<div class="col-lg-4">
-	<c:if test="${empty currentUser.booksInCart}">
-	<h3>Cart is empty</h3>
-	</c:if>
-	<c:forEach items="${cartList}" var="book">
+	<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+Sort By:
+          <a class="dropdown-item" href="${contextPath}/admin/home/author">Author</a>
+          <a class="dropdown-item" href="${contextPath}/admin/home/name">Name</a>
+          <a class="dropdown-item" href="${contextPath}/admin/home/category">Category</a>
+    
+</c:if>
+
+<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
+Sort By:
+          <a class="dropdown-item" href="${contextPath}/customer/home/author">Author</a>
+          <a class="dropdown-item" href="${contextPath}/customer/home/name">Name</a>
+          <a class="dropdown-item" href="${contextPath}/customer/home/category">Category</a>
+    
+</c:if>
+	<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}"><c:forEach items="${bookList}" var="book">
 						<div class="panel panel-default">
-							<div class="panel-body"><c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
-								<b><a href=${contextPath}/customer/book/${book.id}>${book.title}</a></b><br></c:if>
+							<div class="panel-body-center">
+							<img src="/resources/images/${book.image}" height="100px" width="100px">
+								<b><a href=${contextPath}/customer/book/${book.id}>${book.title}</a></b><br>
+								
+							
 							<b>Author:</b>${book.author}<br><b>Category:</b>${book.category}<br><b>Price:</b> &euro;${book.price}<br><div
 									id="mainwrap">
 									
@@ -61,10 +76,23 @@
 							</div>
 						
 						</div>
-					</c:forEach></div><div class="col-lg-5"><form:form method="GET"
-						class="form-signin" action="${contextPath}/customer/cart/checkout">
-						<button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>
-					</form:form></div>
+					</c:forEach></c:if>
+					<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+					<c:forEach items="${bookList}" var="book">
+						<div class="panel panel-default">
+							<div class="panel-body-center">
+							<img src="/resources/images/${book.image}" height="100px" width="100px"><br>
+								<b><a href=${contextPath}/admin/book/${book.id}>${book.title}</a></b><br>
+							
+							<b>Author:</b>${book.author}<br><b>Category:</b>${book.category}<br><b>Price:</b> &euro;${book.price}<br><div
+									id="mainwrap">
+									
+								</div>
+							</div>
+						
+						</div>
+					</c:forEach></c:if>
+	</div><div class="col-lg-5"></div>
 	</div>
 	<!-- /container -->
 </body>

@@ -66,11 +66,22 @@ public class DbTesting {
 	user.setRoles(roles);
 	userRepository.save(user);
 	
+	User user1 = new User();
+	String password1 = "test";
+	user1.setUsername("kevin96");
+	user1.setPassword(bCryptPasswordEncoder.encode(password1));
+	
+	HashSet<Role> roles1 = new HashSet<>();
+	roles1.add(roleAdmin);
+	user1.setRoles(roles1);
+	userRepository.save(user1);
+	
 	Book book = new Book();
 	book.setTitle("jjjjjj");
 	book.setAuthor("a");
 	book.setCategory("ww");
 	book.setPrice(0);
+	book.setStockLevel(5);
 	bookService.save(book);
 	
 	Comment comment = new Comment();

@@ -45,12 +45,7 @@
 
 	<jsp:include page="navbar.jsp"></jsp:include>
 	<div class="container">
-	<div class="col-lg-3"></div>
-	<div class="col-lg-4">
-	<c:if test="${empty currentUser.booksInCart}">
-	<h3>Cart is empty</h3>
-	</c:if>
-	<c:forEach items="${cartList}" var="book">
+	<div class="col-lg-3"><c:forEach items="${cartList}" var="book">
 						<div class="panel panel-default">
 							<div class="panel-body"><c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
 								<b><a href=${contextPath}/customer/book/${book.id}>${book.title}</a></b><br></c:if>
@@ -61,10 +56,45 @@
 							</div>
 						
 						</div>
-					</c:forEach></div><div class="col-lg-5"><form:form method="GET"
+					</c:forEach></div>
+	<div class="col-lg-4"><div id="logbox">
+					<form:form method="POST" modelAttribute="userForm"
 						class="form-signin" action="${contextPath}/customer/cart/checkout">
+						<h2 class="form-signin-heading">Update Account</h2>
+						Name
+						<spring:bind path="name">
+							<div class="form-group ${status.error ? 'has-error' : ''}">
+								<form:input type="text" path="name" value="${userForm.name}"
+									class="form-control" placeholder="Name"></form:input>
+								<form:errors path="name"></form:errors>
+							</div>
+						</spring:bind>
+						Address
+						<spring:bind path="address">
+							<div class="form-group ${status.error ? 'has-error' : ''}">
+								<form:input type="text" path="address" value="${userForm.address}"
+									class="form-control" placeholder="Address"></form:input>
+								<form:errors path="address"></form:errors>
+							</div>
+						</spring:bind>
+						
+						
+						Credit Card Number
+						<spring:bind path="creditNum">
+							<div class="form-group ${status.error ? 'has-error' : ''}">
+								<form:input type="text" path="creditNum" placeholder="${userForm.creditNum}e"
+									class="form-control" value="${userForm.creditNum}"></form:input>
+								<form:errors path="creditNum"></form:errors>
+							</div>
+						</spring:bind>
+	
+				
 						<button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>
-					</form:form></div>
+						<div class="text-center">
+						</div>
+					</form:form>
+				</div>
+	</div><div class="col-lg-5"></div>
 	</div>
 	<!-- /container -->
 </body>

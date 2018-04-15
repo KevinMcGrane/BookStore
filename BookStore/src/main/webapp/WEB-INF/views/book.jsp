@@ -52,22 +52,25 @@
 			<div id="logbox">
 				<div class="panel-group">
 					<div class="panel panel-default">
-						<div class="panel-body">
-							<b><a href=${contextPath}/admin/book/${book.id}>${book.title}
+						<div class="panel-body-center">
+						<img src="/resources/images/${book.image}" height="100px" width="100px">
+							<br><b><a href=${contextPath}/admin/book/${book.id}>${book.title}
 									${postText.user.lname}</a></b> by ${book.author}
 						<br><b>Price: </b>&euro;${book.price}
 						<br><b>Category: </b>${book.category}
-						<br><b>Stock Level: </b>${book.stockLevel}
+						<br><b><c:if test="${book.stockLevel == 0}">Out of stock</c:if></b> 
 										<c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
 						<br><a href="${contextPath}/admin/book/edit/${book.id}">Edit</a></c:if>
 							</div>
 				</div>
-				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}"><form:form
+				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
+				<c:if test="${book.stockLevel > 0}">
+				<form:form
 										action="${contextPath}/customer/book/addtocart/${book.id}"
 										method="post">
 										<button name="${_csrf.parameterName}" value="${_csrf.token}"
 											type="submit" class="btn btn-success btn-sm">Add To Cart</button>
-									</form:form></c:if>
+									</form:form></c:if></c:if>
 				<div class="col-md-7">
 				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
 					<form:form commandName="commentForm" action="${contextPath}/customer/comment/${book.id}"

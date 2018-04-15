@@ -35,7 +35,7 @@
 				Bookstore Admin</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-left" method="get" action="${contextPath}/search">
+				<form class="navbar-form navbar-left" method="get" action="${contextPath}/admin/search">
 					<div class="form-group" role="search">
 						<input type="text" name="searchString" class="form-control" placeholder="Search">
 					</div>
@@ -50,7 +50,7 @@
 
 			</div></c:if>
 				
-										<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">	<div class="navbar-header">
+				<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">	<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
 					aria-controls="navbar">
@@ -62,7 +62,8 @@
 				Bookstore</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-left" method="get" action="${contextPath}/search">
+		
+				<form class="navbar-form navbar-left" method="get" action="${contextPath}/customer/search">
 					<div class="form-group" role="search">
 						<input type="text" name="searchString" class="form-control" placeholder="Search">
 					</div>
@@ -70,10 +71,10 @@
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="${contextPath}/customer/home">Home</a></li>
-					<c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
+					
 															<li><a href="${contextPath}/customer/account">Account</a></li>
 					
-					</c:if>
+					
 					
 										<li><a href="${contextPath}/customer/cart">Cart (${cartSize})</a></li>
 													<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>

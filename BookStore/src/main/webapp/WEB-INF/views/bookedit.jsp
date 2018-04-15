@@ -97,6 +97,12 @@
 						<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
 						
 					</form:form>
+					<form enctype="multipart/form-data" method="post"
+					action="${contextPath}/admin/add/${bookForm.id}/profilepic?${_csrf.parameterName}=${_csrf.token}">
+					<input type="file" name="image"><button type="submit" class="btn btn-default">
+								<span class="glyphicon glyphicon-floppy-disk"></span> Save
+							</button>
+					</form>
 					</div>
 					</div>
 					<div class="col-lg-2"></div>

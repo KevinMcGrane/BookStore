@@ -35,6 +35,7 @@ private User purchasedBy;
 
 private int stockLevel;
 
+
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
 public Long getId() {

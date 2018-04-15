@@ -1,6 +1,8 @@
 package bookstore.web;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import bookstore.model.Book;
 import bookstore.model.Comment;
@@ -126,6 +129,80 @@ public class CustomerController {
 
 		return "cart";
 	}
+	
+	@RequestMapping(value = "/cart/checkout", method = RequestMethod.GET)
+	public String checkout(Model model, String error, Principal p) {
+		User currentUser = userService.findByUsername(p.getName());
+		List<Book> cartList = currentUser.getBooksInCart();
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
+		model.addAttribute("cartList",cartList);
+		model.addAttribute("userForm", currentUser);
+		return "checkoutpage";
+	}
+	
+
+	@RequestMapping(value = "/cart/checkout", method = RequestMethod.POST)
+	public String checkoutPost(@ModelAttribute User userForm, Model model, String error, Principal p) {
+		User currentUser = userService.findByUsername(p.getName());
+		userService.update(userForm, currentUser);
+		userService.checkout(currentUser);
+
+		return "redirect:/customer/cart";
+	}
+	
+	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
+	public String users(@RequestParam("searchString") String searchString, Model model, Principal principal) {
+		List<Book> allList = bookService.findAll();
+		List<Book> searchList = new ArrayList<>();
+		for (Book book : allList) {
+			if (book.getTitle().toLowerCase().contains(searchString.toLowerCase()) || book.getAuthor().toLowerCase().contains(searchString.toLowerCase()) || book.getCategory().toLowerCase().contains(searchString.toLowerCase())) {
+			searchList.add(book);
+			}
+		}
+		User currentUser = userService.findByUsername(principal.getName());
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
+		
+		model.addAttribute("bookList", searchList);
+		return "home";
+	}
+	
+	@RequestMapping(value = "/home/{sort}", method = RequestMethod.GET)
+	public String homeSort(@PathVariable String sort,Model model, Principal p) {
+		
+		List<Book> bookList = bookService.findAll();
+//		Collections.sort(bookList, new Comparator<Book>() {
+//	        @Override
+//	        public int compare(Book o1, Book o2) {
+//	        	if(sort.equals("author")) {
+//	        		return o1.getAuthor().compareTo(o2.getAuthor());
+//	        	}
+//	            
+//	        }
+//	    });
+		if (sort.equals("author")) {
+			System.out.println(bookList);
+		    Collections.sort(bookList, (p1, p2) -> p1.getAuthor().compareTo(p2.getAuthor()));
+		    System.out.println(bookList);
+		}
+		if (sort.equals("category")) {
+			System.out.println(bookList);
+		    Collections.sort(bookList, (p1, p2) -> p1.getCategory().compareTo(p2.getCategory()));
+		    System.out.println(bookList);
+		}
+		if (sort.equals("title")) {
+			System.out.println(bookList);
+		    Collections.sort(bookList, (p1, p2) -> p1.getTitle().compareTo(p2.getTitle()));
+		    System.out.println(bookList);
+		}
+		int cartSize = userService.findByUsername(p.getName()).getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
+		model.addAttribute("currentUser", userService.findByUsername(p.getName()));
+		model.addAttribute("bookList", bookList);
+		return "home";
+		}
+	
 	}
 	
 
