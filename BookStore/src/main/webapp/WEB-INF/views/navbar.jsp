@@ -45,6 +45,7 @@
 					<li><a href="${contextPath}/admin/home">Home</a></li>
 					
 										<li><a href="${contextPath}/admin/addbook">Add book</a></li>
+										<li><a href="${contextPath}/admin/purchase/history">Purchase History</a></li>
 													<li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
 				</ul>
 
