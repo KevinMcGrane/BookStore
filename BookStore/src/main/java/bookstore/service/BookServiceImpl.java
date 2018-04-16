@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bookstore.model.Book;
+import bookstore.model.Purchase;
 import bookstore.model.User;
 import bookstore.repository.BookRepository;
 
@@ -45,6 +46,11 @@ public class BookServiceImpl implements BookService {
 		save(book);
 		userService.update(user, user);
 		
+	}
+	
+	@Override
+	public List<Book> findByPurchase(Purchase purchase) {
+		return bookRepository.findByPurchase(purchase);
 	}
 	
 

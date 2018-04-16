@@ -35,6 +35,8 @@ private User purchasedBy;
 
 private int stockLevel;
 
+private Purchase purchase;
+
 
 @Id
 @GeneratedValue(strategy = GenerationType.AUTO)
@@ -119,6 +121,16 @@ public User getPurchasedBy() {
 
 public void setPurchasedBy(User purchasedBy) {
 	this.purchasedBy = purchasedBy;
+}
+
+@ManyToOne(fetch = FetchType.EAGER)
+@JoinColumn(name="purchase_id")
+public Purchase getPurchase() {
+	return purchase;
+}
+
+public void setPurchase(Purchase purchase) {
+	this.purchase = purchase;
 }
 
 

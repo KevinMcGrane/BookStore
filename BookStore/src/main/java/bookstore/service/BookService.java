@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import bookstore.model.Book;
+import bookstore.model.Purchase;
 import bookstore.model.User;
 
 public interface BookService {
@@ -11,5 +12,6 @@ public interface BookService {
 	void save(Book book);
 	Book findById(Long id);
 	void addBookToCart(Book book, User user);
+	List<Book> findByPurchase(Purchase purchase);
 
 }

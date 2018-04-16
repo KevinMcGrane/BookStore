@@ -47,25 +47,24 @@
 	<div class="container">
 	<div class="col-lg-3"></div>
 	<div class="col-lg-4">
-	<c:if test="${empty currentUser.booksInCart}">
-	<h3>Cart is empty</h3>
 	
-	</c:if>
-	<c:forEach items="${cartList}" var="book">
+	<h3>Purchase: ${purchase.id}</h3>
+	
 						<div class="panel panel-default">
-							<div class="panel-body"><c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
-								<b><a href=${contextPath}/customer/book/${book.id}>${book.title}</a></b><br></c:if>
-							<b>Author:</b>${book.author}<br><b>Category:</b>${book.category}<br><b>Price:</b> &euro;${book.price}<br><div
-									id="mainwrap">
-									
-								</div>
+							<div class="panel-body">
+								Customer: ${purchase.user.name}<br>
+								Date: ${purchase.date}<br>
+								Books<br>
+								<c:forEach items="${books}" var="book">
+								${book.title}<br>
+								${book.author}<br>
+								${book.price}<br>
+								${book.category}<br></c:forEach>
+							
 							</div>
 						
 						</div>
-					</c:forEach></div><div class="col-lg-5"><b><h2>Total: &euro; ${total}</h2></b><br><form:form method="GET"
-						class="form-signin" action="${contextPath}/customer/cart/checkout">
-						<button class="btn btn-lg btn-primary btn-block" type="submit">Checkout</button>
-					</form:form></div>
+					</div><div class="col-lg-5"></div>
 	</div>
 	<!-- /container -->
 </body>

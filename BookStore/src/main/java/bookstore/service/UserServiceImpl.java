@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import bookstore.model.Book;
+import bookstore.model.Purchase;
 import bookstore.model.Role;
 import bookstore.model.User;
 import bookstore.repository.RoleRepository;
@@ -26,8 +27,9 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private BookService bookService;
+    @Autowired
+    private PurchaseService purchaseService;
 
-   
     
     @Override
     public void save(User user) {
@@ -98,7 +100,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void checkout(User user) {
 		user.getPurchased().addAll(user.getBooksInCart());
+		List<Book> purchased = user.getBooksInCart();
+		Purchase purchase = new Purchase();
+		purchase.setBook(purchased);
+		purchase.setUser(user);
+		purchaseService.save(purchase);
+		List<Book> books2 = purchase.getBook();
+		for(Book book:books2) {
+			System.out.println("111111" + book.getAuthor());
+		}
 		user.getBooksInCart().clear();
+		List<Book> books3 = purchase.getBook();
+		for(Book book2:books3) {
+			System.out.println("22222222" + book2.getAuthor());
+		}
 		List<Book> books = user.getPurchased();
 		for(Book book : books) {
 			int stock=book.getStockLevel() - 1;
@@ -107,6 +122,7 @@ public class UserServiceImpl implements UserService {
 			
 			
 		}
+		save(user);
 	}
 
 

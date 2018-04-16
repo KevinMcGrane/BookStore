@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import bookstore.model.Book;
 import bookstore.model.Comment;
+import bookstore.model.Purchase;
 import bookstore.model.User;
 import bookstore.service.BookService;
 import bookstore.service.CommentService;
+import bookstore.service.PurchaseService;
 import bookstore.service.SecurityService;
 import bookstore.service.UserService;
 import bookstore.validator.UserValidator;
@@ -42,6 +44,9 @@ public class CustomerController {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private PurchaseService purchaseService;
 	
 	
 	
@@ -122,6 +127,14 @@ public class CustomerController {
 		User currentUser = userService.findByUsername(p.getName());
 		List<Book> cartList = currentUser.getBooksInCart();
 		int cartSize = currentUser.getBooksInCart().size();
+		float total = 0;
+		
+		for(Book book : cartList) {
+			total += book.getPrice();
+			
+		}
+		
+		model.addAttribute("total", total);
 		model.addAttribute("cartSize", cartSize);
 		model.addAttribute("cartList",cartList);
 		model.addAttribute("currentUser", currentUser);
@@ -135,6 +148,13 @@ public class CustomerController {
 		User currentUser = userService.findByUsername(p.getName());
 		List<Book> cartList = currentUser.getBooksInCart();
 		int cartSize = currentUser.getBooksInCart().size();
+		float total = 0;
+		for(Book book : cartList) {
+			total += book.getPrice();
+			
+		}
+		
+		model.addAttribute("total", total);
 		model.addAttribute("cartSize", cartSize);
 		model.addAttribute("cartList",cartList);
 		model.addAttribute("userForm", currentUser);
@@ -202,6 +222,29 @@ public class CustomerController {
 		model.addAttribute("bookList", bookList);
 		return "home";
 		}
+	
+	@RequestMapping(value = { "/purchase/history" }, method = RequestMethod.GET)
+	public String hist(Model model, Principal principal) {
+		User currentUser = userService.findByUsername(principal.getName());
+		List<Purchase> purchaseList = purchaseService.findByUser(currentUser);
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
+		model.addAttribute("purchaseList", purchaseList);
+		model.addAttribute("currentUser", currentUser);
+		return "purchasehist";
+	}
+	@RequestMapping(value = { "/purchase/{id}" }, method = RequestMethod.GET)
+	public String hist1(@PathVariable Long id, Model model, Principal principal) {
+		User currentUser = userService.findByUsername(principal.getName());
+		Purchase purchase = purchaseService.findById(id);
+		List<Book> books = bookService.findByPurchase(purchase);
+		int cartSize = currentUser.getBooksInCart().size();
+		model.addAttribute("cartSize", cartSize);
+		model.addAttribute("purchase", purchase);
+		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("books", books);
+		return "purchase";
+	}
 	
 	}
 	

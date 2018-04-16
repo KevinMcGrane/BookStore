@@ -28,7 +28,8 @@
 
 		<div class="row main">
 			<div class="col-lg-3 description">
-				
+				<form action="${contextPath}/customer/purchase/history" method="get">
+				<button type="submit">Purchase History</button></form>
 			</div>
 
 			<div class="col-lg-7">

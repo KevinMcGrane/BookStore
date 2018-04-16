@@ -22,6 +22,9 @@ public class User {
 	private String name;
 	private List<Book> booksInCart;
 	private List<Book> purchased;
+	private List<Purchase> purchases;
+	
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -132,5 +135,16 @@ public class User {
 		return "User [id=" + id + ", name = " + username + ", password= " + password + ", password confirmed "
 				+ passwordConfirm + "]";
 	}
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+	
+	
 
 }

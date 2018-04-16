@@ -45,7 +45,7 @@
 
 	<jsp:include page="navbar.jsp"></jsp:include>
 	<div class="container">
-	<div class="col-lg-3"><c:forEach items="${cartList}" var="book">
+	<div class="col-lg-3"><b><h2>Total: &euro; ${total}</h2></b><br><c:forEach items="${cartList}" var="book">
 						<div class="panel panel-default">
 							<div class="panel-body"><c:if test="${pageContext.request.isUserInRole('ROLE_CUSTOMER')}">
 								<b><a href=${contextPath}/customer/book/${book.id}>${book.title}</a></b><br></c:if>
